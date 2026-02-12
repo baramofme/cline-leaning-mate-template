@@ -1,8 +1,10 @@
 #!/bin/bash
+# 위험한 명령어를 차단하거나, 테스트 없이 /done을 하려는 시도를 필터링합니다.
 INPUT=$(cat)
 TOOL=$(echo "$INPUT" | jq -r '.preToolUse.tool')
-# done 스킬 사용 전 반드시 테스트 증거(evidence) 확인 강제
-if [[ "$TOOL" == "use_skill" ]] && [[ "$(echo "$INPUT" | jq -r '.preToolUse.parameters.name')" == "rhadamanthus-judge" ]]; then
-  echo "[PreToolUse] 검증 단계 진입. 테스트 환경을 점검합니다." >&2
+# 예시: 중요한 파일을 지우려 할 때 경고
+if [[ "$TOOL" == "execute_command" ]] && [[ "$(echo "$INPUT" | jq -r '.preToolUse.parameters.command')" == *"rm -rf"* ]]; then
+  echo "{\"cancel\":true,\"errorMessage\":\"Oracle이 이 삭제 작업을 승인하지 않았습니다.\"}"
+  exit 0
 fi
 echo "{\"cancel\":false}"
