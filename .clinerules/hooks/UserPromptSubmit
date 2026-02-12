@@ -1,0 +1,9 @@
+#!/bin/bash
+INPUT=$(cat)
+# learning_state.json이 있다면 현재 단계를 읽어 프롬프트에 추가
+if [ -f ".cline/learning_state.json" ]; then
+  STATE=$(cat .cline/learning_state.json | jq -c '.')
+  echo "{\"cancel\":false,\"contextModification\":\"Current Learning State: $STATE\"}"
+else
+  echo "{\"cancel\":false}"
+fi
