@@ -1,9 +1,9 @@
 #!/bin/bash
+# 사용자가 말을 걸 때마다 현재 어느 단계인지 Cline에게 속삭여줍니다.
 INPUT=$(cat)
-# learning_state.json이 있다면 현재 단계를 읽어 프롬프트에 추가
 if [ -f ".cline/learning_state.json" ]; then
-  STATE=$(cat .cline/learning_state.json | jq -c '.')
-  echo "{\"cancel\":false,\"contextModification\":\"Current Learning State: $STATE\"}"
+  CURRENT=$(cat .cline/learning_state.json | jq -r '.current_step')
+  echo "{\"cancel\":false,\"contextModification\":\"[SYSTEM] 현재 학습 단계: $CURRENT\"}"
 else
   echo "{\"cancel\":false}"
 fi
