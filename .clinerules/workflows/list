@@ -1,0 +1,28 @@
+---
+name: list
+description: Show curriculum roadmap with council-verified progress
+usage: /list
+model: any
+---
+
+# 📋 List Workflow v2.1 (Council Edition)
+
+## Logic: Council-Verified Progress Audit
+1. **State Loading**: `.sisyphus/learning_state.json`을 로드하여 `current_step_id`와 **`Last Green` (최종 판결 성공 지점)**을 확인하십시오.
+2. **Evidence Alignment**: `.sisyphus/evidence/` 폴더의 로그 파일들과 `Last Green` 지점을 대조하여 실제 물리적 완료 여부를 확정하십시오.
+3. **Council Consistency**: `cline_docs/progress.md`의 기록이 **Momus**의 최종 승인 및 **Rhadamanthus**의 증거와 일치하는지 교차 검증하십시오. 불일치 시 "검증 미비" 경고를 표시합니다.
+
+## Output Structure
+1. **Curriculum Metadata**: 주제, 전체 단계(2-6), 현재 시스템 상태(Status).
+2. **Empirical Progress**:
+   - `Last Green` 기준 실제 완료율(%) 및 **"위원회 최종 승인: [Step N.M]"** 명시.
+   - 현재 작업 중인 에이전트(예: Hephaestus-Working) 표시.
+3. **Roadmap Breakdown**:
+   - ✅ (Verified): Rhadamanthus 판결 및 Momus 승인이 완료된 태스크.
+   - 🏗️ (Active): 현재 위원회가 검토 또는 구현 중인 태스크.
+   - ⏳ (Pending): 아직 설계도 내에만 존재하는 대기 태스크.
+4. **Learning Path Visualization**: 2026 표준 준수 여부를 포함한 텍스트 게이지 바 출력.
+
+## Rule
+- 사용자의 주관적 판단이 아닌, 오직 **물리적 로그와 위원회 합의 데이터**가 존재하는 단계만 완료(✅)로 인정하십시오.
+- 계획 수정이 필요한 지점(Bottle-neck)이 발견되면 비고란에 기록하십시오.

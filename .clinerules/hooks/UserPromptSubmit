@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -u
+readonly STATE_FILE=".sisyphus/learning_state.json"
+readonly INFRA_FILE=".sisyphus/infra_status.json"
+readonly PLAN_DIR=".sisyphus/plans"
+exec 3>>".sisyphus/debug/UserPromptSubmit.log"
+
+input=$(timeout 2s cat)
+[ -z "$input" ] && { printf '{"cancel": false, "errorMessage":" "}'; exit 0; }
+
+# [1] 상태 로드 및 분석
+# 상태 파일이 없거나 status가 'learning'이 아니면 컨텍스트 주입 생략
+if [ ! -f "$STATE_FILE" ]; then
+    printf '{"cancel": false, "errorMessage":" "}'
+    exit 0
+fi
+
+STATUS=$(jq -r '.status // "idle"' "$STATE_FILE" 2>/dev/null)
+
+# [Guard] learning 상태가 아닐 때는 개입하지 않음
+if [ "$STATUS" != "learning" ]; then
+    echo "✓ Status is $STATUS (not learning). Skipping context injection." >&3
+    echo '{"cancel": false, "contextModification": " "}'
+    exit 0
+fi
+
+# [2] Learning 모드 전용 데이터 로드
+STEP=$(jq -r '.progress.currentStep // 1' "$STATE_FILE" 2>/dev/null)
+TASK=$(jq -r '.progress.currentTask // "1.1"' "$STATE_FILE" 2>/dev/null)
+INFRA_STATUS=$(jq -r '.connectivity // "Unknown"' "$INFRA_FILE" 2>/dev/null)
+USER_PROMPT=$(echo "$input" | jq -r '.prompt // ""')
+
+TASK_FILE="$PLAN_DIR/step-${STEP}/task-${TASK}.md"
+PLAN_CONTENT=$(cat "$TASK_FILE" 2>/dev/null || echo "⚠️ 현재 태스크 계획서를 찾을 수 없습니다. /plan을 먼저 실행하세요.")
+
+# [NEW] CRCT Context Load
+ACTIVE_CTX=$(cat "cline_docs/activeContext.md" 2>/dev/null | head -n 10 || echo "No active context.")
+
+# [3] 컨텍스트 구성 (Minerva v3.1 Optimized)
+CONTEXT="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏛️ MINERVA v3.1: HYBRID CONTEXT ACTIVE (SES + CRCT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 [PROGRESS] Step $STEP > Task $TASK
+🌐 [INFRA] $INFRA_STATUS
+🧠 [MEMO] $ACTIVE_CTX
+
+⚠️ ACTIVE CONSTRAINTS:
+1. 🔍 SES First: Use jetbrains-mcp to scan symbols before coding.
+2. 🧹 Tidy First: Clean structure before behavior change.
+3. 📝 CRCT Sync: Update cline_docs/ after this task.
+4. 🔴 Standard: 2026 Latest Versions only.
+
+[CURRENT TASK DETAIL]
+$PLAN_CONTENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 USER INPUT:
+$USER_PROMPT"
+
+# [4] 최종 출력
+jq -n --arg ctx "$CONTEXT" '{
+  "cancel": false,
+  "contextModification": $ctx
+}'
+exit 0

@@ -1,0 +1,26 @@
+---
+name: learn
+description: Guided implementation with Council validation (No code dumping)
+usage: /learn [task_id]
+model: qwen-32b
+---
+
+# 🧪 Learn Workflow v3.2 (Council Edition)
+
+## Phase 1: Context Discovery & Standard Audit
+- **Action (Internal)**: `activeContext.md`를 읽어 흐름을 복구하고, `jetbrains-mcp`의 `get_diagnostics`로 현재 코드의 무결성을 선제 점검하십시오.
+- **Action (External)**: 이번 태스크에 필요한 기술 스택의 2026 표준을 **Librarian**을 통해 재확인하십시오. (구형 문법 학습 방지)
+
+## Phase 2: The Red Step (Mandatory Test)
+- **Action**: 학습자에게 실패하는 테스트 코드를 작성하거나, Rhadamanthus가 정의한 검증 명령어를 실행하게 유도하십시오.
+- **Rule**: 테스트가 실패(Red)하는 것을 물리적으로 확인하기 전에는 어떠한 구현 단서도 제공하지 마십시오.
+
+## Phase 3: Socratic Council Guidance (Hephaestus Style)
+- **Action**: **Hephaestus**의 페르소나를 호출하여 질문을 던지십시오. "Librarian이 찾은 2026년 문서의 이 API를 우리 구조에 어떻게 녹이면 좋을까요?"
+- **Rule**: 코드를 먼저 주지 말고 아키텍처적 방향성을 제시하십시오.
+- **Exception**: 3회 이상 정체 시, **Momus**의 비판 기준(200 LOC, SRP)을 통과할 수 있는 최소한의 '구조적 스니펫'만 예시로 제공합니다.
+
+## Phase 4: Recursive Documentation & Sync
+- **Action**: 작업 성공(Green) 시, 새로 생성/수정된 심볼을 `systemPatterns.md`에 동기화하십시오.
+- **Action**: 결정된 논리적 근거(ADR 수준)를 `activeContext.md`에 기록하여 위원회의 지식 자산으로 확정하십시오.
+- **Next**: 완료 후 즉시 `/done` 워크플로우를 호출하여 **Rhadamanthus**의 최종 판결을 받도록 안내하십시오.

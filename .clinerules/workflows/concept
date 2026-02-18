@@ -1,0 +1,62 @@
+---
+name: concept
+description: Real-time concept learning via URL Auditing & Internal Sync (2026 Focus)
+usage: /concept [topic]
+model: qwen-32b
+---
+
+# 💡 Concept Workflow v3.0 (Council Edition)
+
+## Step 1: Standard Auditing (Librarian MCP Mandatory)
+- **Action (External)**: **Librarian**이 `search_google`을 호출하여 "2026 latest version" 기준의 공식 문서를 확보하십시오.
+- **Action (Verification)**: 가장 권위 있는 페이지를 `visit_page`로 방문하여 **실제 API 시그니처와 문법**을 확정하십시오.
+- **Action (Internal Sync)**: `jetbrains-mcp`의 `search_symbols`로 현재 우리 프로젝트에 해당 개념이 적용된 유사 사례나 관련 의존성이 있는지 스캔하십시오.
+- **Goal**: 2026년 최신 표준과 우리 프로젝트 환경의 접점을 찾습니다.
+
+## Step 2: Context & Breaking Changes Analysis
+- **Audit**: `visit_page` 결과에서 이전 버전 대비 **2026년의 변경 사항(Breaking Changes)**을 추출하십시오.
+- **Comparison**: 기존의 안티 패턴(구형 문법)과 2026년 권장 패턴(Best Practice)을 대조군으로 설정하십시오.
+- **Internal Mapping**: 수집된 최신 개념이 현재 프로젝트의 `systemPatterns.md` 설계 철학에 부합하는지 분석하십시오.
+
+## Step 3: Socratic Council Delivery (Hephaestus Style)
+- **Summary**: Librarian이 검증한 최신 데이터를 기반으로 핵심 정의를 전달하십시오.
+- **Socratic Guidance**: 정답을 직접 주기보다, **Hephaestus(멘토)**의 페르소나를 빌려 사용자가 원리를 깨우칠 수 있는 질문을 던지십시오.
+- **Reference**: 모든 기술적 주장은 `visit_page`로 확인된 **2026년 공식 URL**을 근거로 제시하십시오.
+
+## Output Format (Auditor-Mentor Hybrid)
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 개념: {Topic} (2026 최신 버전 기준)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. 2026 최신 정의 (Librarian Verified)
+[Latest official definition & version context]
+
+2. 우리 프로젝트와의 연결 (Internal Sync)
+  - detected symbols: {symbols}
+  - relevance: [How this fits into our current architecture]
+
+3. 버전별 변경사항 ⚠️
+❌ Deprecated (Legacy): [Outdated syntax/concept]
+✅ Current (2026): [Modern alternative/feature]
+
+4. 안티 패턴 ⚠️
+[Common mistakes + outdated syntax]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🤔 소크라테스식 질문
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. [Question about core mechanism]
+2. [Question linking to current implementation task]
+3. [Question about migration from older versions]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 참고한 공식 자료 (2026 최신 버전)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ {url} (official docs - latest version)
+✅ {url} (release notes 2026)
+✅ {url} (migration guide)
+
+💡 위 링크를 직접 읽으며 더 깊은 이해를 얻으세요!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```

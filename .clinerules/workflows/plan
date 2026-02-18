@@ -1,0 +1,30 @@
+---
+name: plan
+description: Generate physical roadmap files with Council Validation (Zero-Code)
+usage: /plan
+model: qwen-32b
+---
+
+# 🏗️ Prometheus Planning Workflow v3.4 (Council Edition)
+
+## Phase 1: Strategic Synthesis (Council Sync)
+- **Action**: `.sisyphus/blueprint.md`와 **Librarian**이 확보한 2026 표준 규격을 동기화하십시오.
+- **Impact Scan**: `jetbrains-mcp`의 `find_usages`를 활용하여 각 태스크의 수정 범위가 전체 아키텍처 결합도에 미치는 영향을 사전 분석하여 기록하십시오.
+
+## Phase 2: Momus Validation Gate
+- **Self-Critique**: 계획 확정 전, **Momus**의 관점에서 다음 3가지를 자가 검토하십시오.
+  1. **Granularity**: 각 태스크가 60분 내에 완료 가능한 '최소 단위'인가?
+  2. **Verifiability**: **Rhadamanthus**가 판결할 수 있는 물리적 연결 성공 로그(Evidence) 채집 명령이 포함되었는가?
+  3. **Modernity**: 2026년형 Docker Compose V2 및 최신 API 규격이 계획에 반영되었는가?
+
+## Phase 3: Physical Artifact Generation (Structure Fix)
+- **Action**: 다음 구조에 따라 **`write_to_file` 도구로 파일을 실제 생성**하십시오.
+  1. `.sisyphus/plans/overview.md` (전체 전략 로드맵)
+  2. `.sisyphus/plans/step-N/task-M.md` (상세 명세)
+    - 예시: `.sisyphus/plans/step-1/task-1.1.md`, `.sisyphus/plans/step-2/task-2.1.md`
+- **Rule**: 태스크 파일에 **정답 코드를 삽입하는 것을 엄격히 금지**합니다. (오직 성공 기준, 테스트 명령어, Librarian의 공식 문서 URL만 포함)
+
+## Phase 4: Council Memory Sync & Transition
+- **Action**: `.sisyphus/learning_state.json` 상태를 **`"learning"`**으로 전이하십시오.
+- **Action**: `cline_docs/progress.md`와 `activeContext.md`에 전체 로드맵을 기록하십시오.
+- **Final Report**: "확정된 환경 위에서 상세 로드맵 생성이 완료되었습니다. 첫 번째 태스크 학습을 시작하려면 **`/learn [task_id]`**를 입력하십시오."

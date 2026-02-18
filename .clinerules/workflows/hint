@@ -1,0 +1,26 @@
+---
+name: hint
+description: Provide 3-level Socratic hints via Council Experts
+usage: /hint
+model: ministral-8b
+---
+
+# 🎓 Hint Workflow v3.1 (Council Edition)
+
+## Level 1: Abstract Principles (Hephaestus Mentor)
+- **Action**: 구현 디테일을 배제하고 근본적인 원리와 설계 철학에 대한 질문을 던지십시오.
+- **Goal**: 학습자가 문제의 본질을 스스로 정의하도록 유도합니다. (5분 이상의 심층 사고 권장)
+
+## Level 2: Concrete Patterns & Standards (Librarian Audit)
+- **Action 1 (Research)**: **Librarian**을 통해 해당 기술의 2026년 최신 공식 문서 URL을 확보하십시오.
+- **Action 2 (Guidance)**: 확보된 URL과 함께 기술적 패턴(Pattern)을 제시하되, 정답 코드는 제공하지 마십시오.
+- **CRITICAL**: 반드시 `visit_page`로 확인된 **2026년 최신 문법(Syntax)** 기준의 단서만 제공하십시오.
+
+## Level 3: Decisive Structural Guide (Worker Context)
+- **Action 1 (Discovery)**: `jetbrains-mcp`의 `get_type_definition` 등을 호출하여 현재 사용자의 코드 문맥(Context)을 정확히 파악하십시오.
+- **Action 2 (Pseudocode)**: 파악된 구조를 바탕으로 API 시그니처와 의사코드(Pseudocode)를 제시하십시오.
+- **Constraint**: 비즈니스 로직은 여전히 제외하며, **Momus**의 비판 기준(200 LOC, SRP)에 부합하는 구조적 가이드만 제공합니다.
+
+## State Management
+- **Sync**: `.sisyphus/learning_state.json` 내의 `hintLevel`을 증가시키고 요청 기록을 남기십시오.
+- **Context**: 현재의 힌트가 `blueprint.md`의 어느 단계와 연결되는지 명시하여 학습의 일관성을 유지하십시오.

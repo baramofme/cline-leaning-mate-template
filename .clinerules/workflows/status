@@ -1,0 +1,29 @@
+---
+name: status
+description: Visualize Council-verified progress & state control
+usage: /status
+model: any
+---
+
+# 📊 Status Workflow v2.5 (Council Edition)
+
+## Display Components (The Dashboard)
+1. **Council Overall Progress**: `progress.md`와 연동된 시각적 게이지 바.
+2. **Current Active Agent**: 현재 작업을 주도 중인 에이전트 (예: ⚒️ Hephaestus-Implementation).
+3. **Current Task Objective**: `activeContext.md` 및 해당 태스크 파일의 핵심 목표 요약.
+4. **Physical Evidence Check**:
+   - `Last Green` 지점 표시.
+   - **Rhadamanthus**가 확보한 최근 연결 성공 로그 샘플.
+5. **Standard Compliance (Librarian)**: 2026년 최신 표준 적용 여부 (✅/⚠️).
+6. **Next Action Suggestion**: 위원회의 합의를 얻기 위해 필요한 다음 단계 제안.
+
+## Logic: Automated State Transition
+- **Infra/Connectivity Audit**:
+  - IF (Docker/DB Service is `healthy`) AND (**Rhadamanthus** Connection Log exists):
+    - **Action**: "✅ 인프라 및 서비스 간 의존성 연결이 검증되었습니다." 표시.
+    - **State Transition**: `.sisyphus/learning_state.json`의 `status`를 `learning`으로 업데이트하고, 즉시 `/resume` 워크플로우 호출을 제안하십시오.
+  - ELSE:
+    - **Action**: 미결된 의존성 항목을 나열하고 **Fix** 워크플로우 실행을 권고하십시오.
+
+## Output Format
+- 모든 출력은 **Prometheus(플래너)**가 설계한 로드맵의 구조를 따르며, **Momus(비평가)**가 반려한 이력이 있다면 해당 사유를 '비고'란에 명시하십시오.

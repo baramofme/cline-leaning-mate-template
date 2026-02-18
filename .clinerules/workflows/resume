@@ -1,0 +1,29 @@
+---
+name: resume
+description: 위원회 컨텍스트 복구 및 세션 연속성 재점화 (Council Re-ignition)
+usage: /resume
+model: any
+---
+
+# 🔄 Resume Workflow v2.4 (Council Edition)
+
+## 1. Council State Recovery (Selective Audit)
+- **Status Loading**: `.sisyphus/learning_state.json`을 읽어 현재 시스템 상태와 `Last Green` 지점을 확인하십시오.
+- **Decision Log**: `cline_docs/activeContext.md`와 `systemPatterns.md`를 로드하여 **Oracle(아키텍트)**이 내린 마지막 결정과 의존성 지도를 복구하십시오.
+- **Optimization**: 인프라 상태가 `learning`으로 고정되어 있다면 불필요한 `docker ps` 등 전수 조사를 생략하고 캐시된 연결성을 신뢰하십시오.
+
+## 2. Active Task Context Re-ignition
+- **Selective Loading**: **오직 현재 단계**(`current_step_id`)에 해당하는 `.sisyphus/plans/` 내의 상세 태스크 파일만 로드하여 컨텍스트 윈도우를 방어하십시오.
+- **Guidance Injection**: **Momus(비평가)**의 '200 LOC 제한' 및 **Rhadamanthus(판사)**의 '물리적 연결 증거' 원칙을 핵심 요약 형태로 재주입하십시오.
+
+## 3. Delta Analysis & Error Trace
+- **Change Trace**: `git status --short` 또는 파일 타임스탬프를 통해 세션 중단 사이의 변경 델타(Delta)를 파악하십시오.
+- **Evidence Check**: `.sisyphus/evidence/`의 최근 로그 중 **에러 키워드** 블록만 추출하여 **Librarian(감사)**의 관점에서 최신 표준 위반 여부를 짧게 진단하십시오.
+
+## 4. Council Briefing & Next Step
+- **Status Report**: "위원회 맥락을 복구했습니다. 현재 **[Step N.M: 태스크명]**을 진행 중이며, 서비스 간 연결은 [정상/확인필요] 상태입니다."
+- **Focus Action**: **Hephaestus(실무자)**가 즉시 수정해야 할 파일과 **Rhadamanthus**가 요구할 테스트 케이스 1개만 특정하여 보고하십시오.
+
+## 🚫 복구 시 주의사항
+- **Token Saver**: 불필요한 전체 인프라 재확인 명령을 반복하지 마십시오.
+- **Alignment**: 복구된 맥락이 **Librarian**의 2026 표준 가이드라인에서 벗어났다면 즉시 사용자에게 경고하십시오.

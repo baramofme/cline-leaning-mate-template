@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+set -u
+
+# 설정 파일 경로
+readonly LOG_FILE=".sisyphus/debug/PostToolUse.log"
+readonly ERROR_TEMP=".sisyphus/debug/last_error.tmp"
+readonly INFRA_KNOWLEDGE=".sisyphus/knowledge-base/infra-fixes.jsonl"
+readonly LEARNING_KNOWLEDGE=".sisyphus/knowledge-base/learning-fixes.jsonl"
+
+mkdir -p .sisyphus/debug .sisyphus/knowledge-base .sisyphus/evidence .sisyphus/logs 2>/dev/null
+
+# FD 3를 로그용으로 사용
+exec 3>>"$LOG_FILE"
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&3
+echo "PostToolUse: $(date '+%Y-%m-%d %H:%M:%S.%3N')" >&3
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&3
+
+# 1. 입력 데이터 읽기
+# 입력을 읽되, 2초 이상 걸리면 강제 종료
+input=$(timeout 2s cat)
+if [ -z "$input" ] || [ "$input" = "{}" ]; then
+    echo "⚠ Empty input" >&3
+    printf '{"cancel": false, "errorMessage":" "}'
+    exit 0
+fi
+echo "✓ stdin read (${#input} bytes)" >&3
+
+# 2. 필수 데이터 파싱 (공식 JSON 스펙 .postToolUse 계층 반영)
+echo "[2/6] Parsing..." >&3
+TOOL=$(echo "$input" | jq -r '.postToolUse.toolName // empty')
+RESULT=$(echo "$input" | jq -r '.postToolUse.result // empty')
+# 성공 여부 (boolean) 및 종료 코드
+SUCCESS=$(echo "$input" | jq -r '.postToolUse.success // true')
+EXIT_CODE=$(echo "$input" | jq -r '.postToolUse.exitCode // 0')
+DURATION=$(echo "$input" | jq -r '.postToolUse.executionTimeMs // 0' 2>/dev/null || echo "0")
+
+# FILE_PATH를 상단에서 공통 추출 (없을 경우 빈 문자열로 초기화하여 set -u 회피)
+FILE_PATH=$(echo "$input" | jq -r '.postToolUse.parameters.path // .postToolUse.parameters.relative_path // ""')
+
+echo "✓ TOOL=$TOOL DURATION=${DURATION}ms" >&3
+echo "[TOOL] $TOOL (Success: $SUCCESS, Exit: $EXIT_CODE)" >&3
+
+# 3. 오류 발생 및 해결 감지 로직 (Minerva 핵심)
+echo "[3/6] Knowledge Capturing..." >&3
+case "$TOOL" in
+    "execute_command")
+        if [ "$SUCCESS" = "false" ] || echo "$RESULT" | grep -Ei "error|fail|exception|could not find" >/dev/null; then
+            echo "⚠ Failure detected. Advising MCP Diagnosis..." >&3
+            # [NEW] 에러 발생 시 jetbrains-mcp get_diagnostics 호출을 권고하는 플래그 파일 생성
+            touch ".sisyphus/debug/NEED_MCP_DIAGNOSTIC"
+
+            COMMAND=$(echo "$input" | jq -r '.postToolUse.parameters.command // "unknown"')
+            jq -n --arg cmd "$COMMAND" --arg out "$RESULT" \
+                '{command: $cmd, error_output: $out, timestamp: (now|strflocaltime("%Y-%m-%d %H:%M:%S"))}' > "$ERROR_TEMP"
+
+        # 성공 감지: 이전에 에러가 저장되어 있었는데 지금 성공했다면?
+        elif [[ -f "$ERROR_TEMP" ]]; then
+            echo "⭐ SUCCESS after failure! Extracting knowledge..." >&3
+            PREV_ERROR=$(cat "$ERROR_TEMP")
+            PREV_CMD=$(echo "$PREV_ERROR" | jq -r '.command')
+
+            # 인프라 vs 학습 분류
+            TARGET_KB="$LEARNING_KNOWLEDGE"
+            [[ "$PREV_CMD" =~ docker|gradlew?|npm|apt|pip|setup|oracle ]] && TARGET_KB="$INFRA_KNOWLEDGE"
+
+            # 지식 베이스 기록
+            jq -n \
+               --argjson prev "$PREV_ERROR" \
+               --arg now_cmd "$(echo "$input" | jq -r '.postToolUse.parameters.command')" \
+               '{timestamp: (now|strflocaltime("%Y-%m-%d %H:%M:%S")), issue: $prev.error_output[:250], fail_cmd: $prev.command, fix_cmd: $now_cmd}' >> "$TARGET_KB"
+
+            rm "$ERROR_TEMP"
+            rm -f ".sisyphus/debug/NEED_MCP_DIAGNOSTIC"
+            echo "✓ Knowledge captured in $(basename "$TARGET_KB")" >&3
+        fi
+        ;;
+
+"write_to_file"|"apply_diff")
+        if [[ -f "$ERROR_TEMP" && -n "$FILE_PATH" ]]; then
+            echo "📝 File modification detected after error in $FILE_PATH" >&3
+            # 추출된 경로를 에러 로그(ERROR_TEMP)에 fix_file 항목으로 추가합니다.
+            updated_error=$(jq --arg path "$FILE_PATH" '. + {fix_file: $path}' "$ERROR_TEMP")
+            echo "$updated_error" > "$ERROR_TEMP"
+        fi
+        ;;
+esac
+
+# 4. 성능 체크 (기존 유지)
+echo "[4/6] Performance check..." >&3
+if [ "$DURATION" -gt 3000 ]; then
+    TS=$(date +%Y%m%d_%H%M%S)
+    echo "⚠ SLOW: ${DURATION}ms" >&3
+    echo "[$TS] SLOW: $TOOL took ${DURATION}ms" >> .sisyphus/logs/performance.log
+else
+    echo "✓ Normal" >&3
+fi
+
+# 5. 테스트 및 브라우저 체크 (공식 경로 반영 수정)
+echo "[5/6] Content check..." >&3
+# 테스트 리포트 저장
+if [ "$TOOL" = "execute_command" ] && echo "$RESULT" | grep -qiE "test|passed|failed" 2>/dev/null; then
+    TS=$(date +%Y%m%d_%H%M%S)
+    echo "✓ Test detected" >&3
+    printf "%s" "$RESULT" > ".sisyphus/evidence/test_${TS}.log"
+fi
+
+# [NEW] 5.5 CRCT Sync (파일 수정 시 progress.md 갱신 권고)
+if [[ "$TOOL" == "write_to_file" && ! "$FILE_PATH" =~ ^\.sisyphus/ ]]; then
+    echo "✓ Source change detected. Syncing with cline_docs..." >&3
+fi
+
+# 브라우저 URL 로그 (공식 경로 .postToolUse.parameters.url)
+if [ "$TOOL" = "browser_action" ] || [ "$TOOL" = "visit_page" ]; then
+    URL=$(echo "$input" | jq -r '.postToolUse.parameters.url // empty')
+    if [ -n "$URL" ]; then
+        echo "✓ URL: $URL" >&3
+        TS=$(date -Iseconds)
+        jq -n --arg ts "$TS" --arg url "$URL" '{timestamp: $ts, url: $url}' >> .sisyphus/evidence/urls.json
+    fi
+fi
+
+# 6. 최종 응답 전송
+echo "[6/6] Sending response..." >&3
+printf '{"cancel": false, "errorMessage":" "}'
+echo "✓ Response sent to Cline" >&3
+
+exit 0

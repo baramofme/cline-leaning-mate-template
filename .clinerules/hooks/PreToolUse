@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -u
+
+readonly LOG_FILE=".sisyphus/debug/PreToolUse.log"
+readonly STATE_FILE=".sisyphus/learning_state.json"
+mkdir -p .sisyphus/debug 2>/dev/null
+
+# FD 3를 로그용으로 사용
+exec 3>>"$LOG_FILE"
+
+# [1] 입력 읽기 (기존 안정 로직 유지)
+input=$(timeout 2s cat)
+[ -z "$input" ] || [ "$input" = "{}" ] && { printf '{"cancel": false, "errorMessage":" "}'; exit 0; }
+echo "✓ stdin read (${#input} bytes)" >&3
+
+TOOL=$(echo "$input" | jq -r '.preToolUse.toolName // empty')
+FILE_PATH=$(echo "$input" | jq -r '.preToolUse.parameters.path // empty')
+STATUS=$(jq -r '.status // "idle"' "$STATE_FILE" 2>/dev/null || echo "idle")
+
+# [2] 코드 작성 도구 차단 (Exception: .sisyphus/ & jetbrains-mcp is ALWAYS allowed)
+#case "$TOOL" in
+#    write_to_file|apply_diff|replace_in_file)
+#        if [[ ! "$FILE_PATH" =~ ^\.sisyphus/ ]]; then
+#            printf ".preToolUse.parameters"
+#            # 🚫 켄트 벡 가드레일 유지
+#            jq -n --arg msg "⚠️ Minerva v3.1: AI 직접 수정 제한\n\n직접 타이핑하여 Small Step을 실천하세요.\n수정 전 jetbrains-mcp로 의존성을 먼저 확인했나요?" \
+#                  '{cancel: true, errorMessage: $msg}'
+#            exit 0
+#        fi
+#        ;;
+#esac
+
+# [NEW] MCP 도구 사용 시 로그 기록 (선택 사항)
+if [[ "$TOOL" =~ ^jetbrains-mcp ]]; then
+    echo "🔍 Symbol Scanning: $TOOL" >&3
+fi
+
+printf '{"cancel": false, "errorMessage":" "}'
+exit 0

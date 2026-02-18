@@ -1,0 +1,27 @@
+---
+name: done
+description: Zero-Trust Grading, Insight Check & Council Sync
+usage: /done
+model: ministral-8b
+---
+
+# ⚖️ Rhadamanthus Done Workflow v3.2 (Council Edition)
+
+## Phase 1 & 2: Evidence & Connectivity (Rhadamanthus Audit)
+- **Hard Evidence**: 테스트 패스율, 서비스 간 연결 성공 로그(App-DB), 200 LOC 준수 여부 확인.
+- **Zero-Trust**: 구두 보고가 아닌 터미널의 `Exit Code`와 실제 로그 파일(`.sisyphus/evidence/`)만 신뢰합니다.
+
+## Phase 3: The Insight Question (Hephaestus Mentor Mode)
+- **Action**: 최종 승인 직전, 사용자의 메타인지를 자극하는 **단 하나의 핵심 질문**을 던지십시오.
+  - 예: "Oracle 21c의 이 연결 방식을 선택함으로써 얻은 아키텍처적 이점은 무엇입니까?"
+- **Rule**: 답변에서 기술적 근거나 학습의 의지가 확인될 때만 다음 단계로의 전이를 허용합니다.
+
+## Phase 4: Standard & Diagnosis Audit (Librarian MCP Check)
+- **Diagnostic**: `jetbrains-mcp`의 `get_diagnostics`를 호출하여 잔여 빌드 에러나 경고(Warning)가 0인지 최종 확인하십시오.
+- **2026 Audit**: 구현된 코드가 **Librarian**이 확보한 2026 표준(Spring 3.4, Oracle 23ai 등 최신 규격)과 일치하는지 최종 대조합니다.
+
+## Phase 5: CRCT Progress & Memory Sync (Council Consensus)
+- **Action**: 모든 검증 통과 시 `cline_docs/progress.md`와 `.sisyphus/learning_state.json`을 업데이트하십시오.
+- **Action 3**: `.sisyphus/learning_state.json`의 `current_step_id`를 다음으로 갱신하십시오.
+- **Archiving**: 성공한 결과물과 Lesson Learned를 `knowledge-base`에 적재하여 다음 `/forge`나 `/fix`에서 참조 가능하게 합니다.
+- **Final Verdict**: "위원회 검증 완료. 태스크가 성공적으로 종료되었습니다. 다음 학습을 위해 **`/learn [next_task_id]`**를 호출하거나, 전체 현황 확인을 위해 **`/status`**를 입력하십시오."

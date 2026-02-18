@@ -1,0 +1,37 @@
+{
+  "version": "3.3",
+  "project_name": "[Project Name]",
+  "status": "idle",
+  "phase": "blueprint",
+  "council_sync": {
+    "last_active_agent": "Oracle",
+    "verified_by_momus": false,
+    "last_audit_date": "2026-02-17T04:36:00Z"
+  },
+  "progress": {
+    "current_step_id": 1,
+    "current_task_id": "1.1",
+    "total_tasks": 0,
+    "completed_tasks": 0,
+    "last_green_task": "None",
+    "last_green_evidence_path": ""
+  },
+  "infrastructure": {
+    "stack": {
+      "language": "Java 21",
+      "framework": "Spring Boot 3.4",
+      "database": "Oracle 23ai",
+      "container": "Docker Compose v2"
+    },
+    "status": {
+      "docker": "stopped",
+      "db_connection": "disconnected",
+      "last_health_check": ""
+    }
+  },
+  "knowledge_stats": {
+    "infra_fixes_count": 0,
+    "learning_fixes_count": 0,
+    "last_lesson_learned": ""
+  }
+}

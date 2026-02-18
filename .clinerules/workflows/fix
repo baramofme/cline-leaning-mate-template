@@ -1,0 +1,29 @@
+---
+name: fix
+description: Emergency repair with Council validation & MCP Diagnosis
+usage: /fix
+model: any
+---
+
+# 🛠️ Fix Workflow v2.8 (Council Edition)
+
+## Phase 0: Deep Investigation (Council Collective)
+- **Action**: 문제 수정 전 반드시 아래 조사를 선행하십시오.
+- **Rhadamanthus**: 현재 장애의 물리적 증거(Exit Code, Full Stack Trace) 확보.
+- **Librarian**: 2026년 최신 이슈 리서치.
+- **Oracle**: 위 데이터를 근거로 `systemPatterns.md` 위반 여부 판별 및 원인 가설 수립.
+- **Momus**: Oracle의 가설이 Rhadamanthus/Librarian의 데이터와 모순되는지 비판적으로 검증하여 원인 확정.
+
+## Phase 1: Council Isolation & Diagnosis
+- **MCP Action**: `get_diagnostics`와 `execute_command`를 병행하여 IDE와 런타임 에러를 동시 분석하십시오.
+- **Diagnosis**: 분석 결과를 위원회에 보고하고, 장애 유형에 따라 담당 에이전트를 지정하십시오.
+
+## Phase 2: Atomic Repair & Critique
+- **Kent Beck Rule**: 수리 전 **'Tidy First'**가 필요한지 검토하고, 한 번에 하나의 결함만 수정하십시오.
+- **Momus Action**: 수정안이 아키텍처 의존성(`systemPatterns.md`)을 해치지 않는지 비판적으로 검토하십시오.
+- **Validation**: 수정 후 Rhadamanthus가 요구하는 **물리적 로그 증거**가 확보될 때까지 '수리 완료'를 선언하지 마십시오.
+
+## Phase 3: Knowledge Persistence & Resume
+- **Action**: 수리 성공 시, 해결 패턴을 `infra-fixes.jsonl` 또는 `learning-fixes.jsonl`에 즉시 기록하여 에이전트들의 공동 지식으로 자산화하십시오.
+- **State Update**: 성공한 지점을 `last_green_task`로 업데이트하여 안전 자산으로 확정하십시오.
+- **Next**: 수리 완료 보고 후 자동으로 **`/resume`**를 호출하여 중단된 태스크의 맥락을 복구하십시오.

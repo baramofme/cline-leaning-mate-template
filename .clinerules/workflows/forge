@@ -1,0 +1,36 @@
+---
+name: forge
+description: 설계도(Blueprint) 기반의 물리적 환경 구축 및 구현 (Environment Implementation)
+usage: /forge
+model: qwen-32b
+---
+
+# ⚒️ Forge Workflow v2.1 (Council Edition)
+
+## Phase 0: Context & Standard Discovery
+- **Action 1 (Internal)**: `.sisyphus/blueprint.md`와 `cline_docs/productContext.md`를 정독하여 인프라 명세를 완벽히 추출하십시오.
+- **Action 2 (External)**: **Librarian**을 통해 추출된 기술 스택(Oracle 21c, Spring 3.4 등)의 2026년 최신 설정 표준을 재검증하십시오.
+- **Goal**: 설계도와 최신 표준이 결합된 '구축 가이드라인' 확립.
+
+## Phase 1: Environment Implementation (Hephaestus Action)
+- **Action**: 설계도의 명세를 물리적 환경(Docker, DB Schema, Baseline Code)으로 전환하십시오.
+- **Execution**:
+    - **Infra**: 컨테이너 기동 및 라이브러리 의존성 주입.
+    - **Data**: 설계도에 명시된 DB 스키마 및 초기 시드 데이터 구축.
+    - **Base**: MyBatis/JPA 설정 등 개발을 위한 물리적 토대 구현.
+- **Constraint**: `infra-fixes.jsonl`에 기록된 과거 실패 사례를 반드시 회피하십시오.
+
+## Phase 1.5: Deep Investigation Gate (Council Collaboration)
+- **Trigger**: Rhadamanthus의 검증 로그가 `FAIL`이거나 런타임 에러 발생 시 즉시 재시도 금지.
+- **Rhadamanthus**: 현재 실패 현장의 **물리적 로그 및 네트워크 데이터** 수집.
+- **Librarian**: 수집된 로그 기반 2026년 최신 기술 스택 이슈/Breaking Changes 리서치.
+- **Oracle**: 위 두 데이터를 결합하여 **근본 원인 가설(Hypothesis)** 수립.
+- **Momus**: **Rhadamanthus와 Librarian의 원본 데이터를 직접 대조**하여 Oracle의 가설이 타당한지 비판. 타당하지 않을 경우 조사 단계로 회귀.
+
+## Phase 2: Connectivity & Evidence Guard (Rhadamanthus Action)
+- **Action**: **Rhadamanthus**의 프로토콜에 따라 서비스 간 실제 연결 로그 확보 및 `infra_status.json` 기록.
+
+## Phase 3: Momus Final Review & Sync
+- **Action**: 모든 구축 결과물과 증거를 **Momus**에게 제출하여 비판적 검토를 요청하십시오.
+- **Approval**: `Momus`가 "설계도 명세 대비 구현 무결성"을 승인한 경우에만 `.sisyphus/learning_state.json` 상태를 **`ready_to_plan`**으로 변경하십시오.
+- **Final Report**: "물리적 환경 구축 및 연결 검증이 완료되었습니다. 이제 이 환경에서 수행할 상세 학습 로드맵을 생성하기 위해 **`/plan`** 명령을 실행하십시오."

@@ -1,0 +1,42 @@
+---
+name: blueprint
+description: Infrastructure Check, Socratic Interview & Technical Spec (Council Sync)
+trigger: /blueprint [topic]
+model: qwen-32b
+---
+
+# 🎨 Blueprint Workflow v3.6 (Council Edition)
+
+## ⚠️ 상시 준수 원칙 (Global Constraint)
+- **Council Protocol**: 모든 단계에서 획득한 데이터는 위원회 에이전트(Metis, Librarian)의 페르소나를 통해 가공되어야 합니다.
+- **Strict Chaining**: 도구 호출 후 결과가 나오면 즉시 다음 단계를 스스로 수행하십시오. (Phase 2 제외)
+
+## Phase 0: Symbol & Context Intelligence (Metis Pre-Scan)
+- **Action**: 즉시 `jetbrains-mcp`의 `get_file_structure` 및 `list_directory`를 호출하십시오.
+- **Internal Audit**: `cline_docs/systemPatterns.md`를 읽어 기존 아키텍처 결합도를 분석하십시오.
+- **Next**: 완료 즉시 Phase 1로 진입하십시오.
+
+## Phase 1: Environment Readiness (Rhadamanthus Pre-Check)
+- **Action 1**: `execute_command`로 필수 도구(Docker, Java, SQLcl 등) 가용성 확인.
+- **Action 2**: 필수 디렉토리(`.sisyphus/` 4대 폴더) 및 `cline_docs/` 초기화.
+- **Action 3**: `.sisyphus/learning_state.json`을 생성하고 `status: "interviewing"`으로 설정하십시오.
+- **Next**: 지체 없이 Phase 2로 이동하십시오.
+
+## Phase 2: Metis Socratic Interview (Strategy Alignment)
+- **Action**: **Metis**의 관점에서 사용자에게 다음 3가지 핵심 질문을 던지십시오.
+  1. "구현 목표의 핵심 비즈니스 의도는 무엇입니까? (Intent 분류용)"
+  2. "사용자님의 기술 숙련도와 선호하는 학습 깊이는 어느 정도입니까?"
+  3. "Oracle 21c/Spring 3.4 등 2026 표준 외에 고수해야 할 특정 제약이 있습니까?"
+- **Gate**: 사용자의 답변이 입력되면 이를 리서치 및 분석 시작 신호로 간주합니다.
+
+## Phase 3 & 4: Librarian Standard Audit (Standard-First)
+- **Action (Librarian Context)**: 사용자 답변에서 키워드를 추출하여 `search_google`을 **3회 이상 연속 호출**하십시오.
+- **Focus**: "2026 Latest Stable Version", "Breaking Changes since 2025", "Security Patches"를 중점 파악하십시오.
+- **Verification**: 유의미한 URL은 `visit_page`로 구문을 직접 검증하십시오.
+- **Next**: 데이터 수집 즉시 Phase 5로 진입하십시오.
+
+## Phase 5: Council Artifact Generation (Persistence)
+- **Action 1 (Blueprint)**: `.sisyphus/blueprint.md` 작성. (Librarian의 2026 규격과 Metis의 의도 분석 결과 포함)
+- **Action 2 (Context Sync)**: `cline_docs/productContext.md`에 비즈니스 목표와 기술 제약 사항 기록.
+- **Action 3 (State Transition)**: `.sisyphus/learning_state.json` 상태를 `"ready_to_forge"`로 변경.
+- **Final Report**: "위원회 분석 및 설계 완료. 설계도에 명시된 물리적 환경 구축을 위해 **`/forge`** 명령을 실행하십시오. (환경 검증 후 상세 계획 수립이 가능합니다.)"

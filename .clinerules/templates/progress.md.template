@@ -1,0 +1,27 @@
+# 🏁 Project Progress: [Project Name]
+
+## 📊 Summary
+- **Current Status**: [analyzing / planning / learning / idle]
+  - analyzing: 요구사항 분석 중
+  - planning: 학습로드맵 설계 중
+  - learning: 실제 학습 진행 중
+  - idle: 대기 상태
+
+- **Last Verified (Last Green)**: [Task ID / None]
+  - Last Green Task: 마지막 성공한 작업 ID
+
+- **Total Completion**: [N]%
+  - 계산 방식: 완료된 태스크 수 / 전체 태스크 수 × 100
+
+## 🗺️ Learning Roadmap
+- [ ] **Phase 1: [Phase Name]**
+    - [ ] Task 1.1: [Description] ([Status: ✅/🏗️/⏳])
+      - ✅: 완료됨
+      - 🏗️: 진행 중
+      - ⏳: 대기 중
+
+## 🎯 Current Focus
+- **Active Task**: [Task ID]
+  - 현재 진행 중인 태스크 ID
+- **Current Goal**: [Short description]
+  - 구체적인 학습 목표 설명
