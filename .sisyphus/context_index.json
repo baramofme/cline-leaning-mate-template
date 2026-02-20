@@ -1,0 +1,15 @@
+{
+  "Sisyphus": ["minerva.config.json", ".sisyphus/tasks.json", ".sisyphus/build_state.json"],
+  "Metis": ["minerva.config.json", ".sisyphus/user_profile.json"],
+  "Prometheus": ["minerva.config.json", ".sisyphus/user_profile.json", ".sisyphus/dependency_map.json", ".sisyphus/learning_velocity.json"],
+  "Atlas": ["minerva.config.json", ".sisyphus/tasks.json", ".sisyphus/build_state.json", ".sisyphus/learning_velocity.json"],
+  "Junior": ["minerva.config.json", ".sisyphus/tasks.json"],
+  "Doctor": ["minerva.config.json"],
+  "Explore": ["minerva.config.json"],
+  "Librarian": ["minerva.config.json"],
+  "Sentinel": ["minerva.config.json", ".sisyphus/antipatterns/library.json"],
+  "Momus": ["minerva.config.json", ".sisyphus/tasks.json", ".sisyphus/antipatterns/incidents.jsonl"],
+  "Oracle": ["minerva.config.json", ".sisyphus/tasks.json"],
+  "Graduate": ["minerva.config.json", ".sisyphus/tasks.json", ".sisyphus/learning_velocity.json"],
+  "Portfolio": ["minerva.config.json", ".sisyphus/tasks.json", ".sisyphus/journal/"]
+}

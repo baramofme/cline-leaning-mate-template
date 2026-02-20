@@ -1,0 +1,36 @@
+{
+  "rules": [
+    {
+      "id": "AP-OVERSIZE-UNIT",
+      "name": "Oversized unit",
+      "severity": "warn",
+      "heuristic": {
+        "type": "lines_threshold",
+        "target": "file",
+        "soft": 500,
+        "hard": 800
+      },
+      "teach": "Keep units small to reduce cognitive load; extract responsibilities."
+    },
+    {
+      "id": "AP-TEST-INTERDEPENDENCY",
+      "name": "Test interdependency",
+      "severity": "block",
+      "heuristic": {
+        "type": "test_order_dependency",
+        "signal": "flaky_or_order_dependent"
+      },
+      "teach": "Tests must be isolated; shared state should be reset per test."
+    },
+    {
+      "id": "AP-MAGIC-VALUE",
+      "name": "Magic value without meaning",
+      "severity": "warn",
+      "heuristic": {
+        "type": "literal_overuse",
+        "signal": "repeated_literal_without_name"
+      },
+      "teach": "Name intent via constant/config; avoid unexplained literals."
+    }
+  ]
+}

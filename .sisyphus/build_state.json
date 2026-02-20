@@ -1,0 +1,6 @@
+{
+  "active_task_id": null,
+  "phase": "idle",
+  "last_transition_at": null,
+  "retry_count": 0
+}

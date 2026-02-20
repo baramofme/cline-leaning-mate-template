@@ -1,0 +1,11 @@
+{
+  "pace": "moderate",
+  "struggle_points": [],
+  "mastered": [],
+  "next_difficulty": 0.5,
+  "signals": {
+    "peek_rate": 0.0,
+    "retry_rate": 0.0,
+    "test_failure_rate": 0.0
+  }
+}
