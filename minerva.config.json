@@ -1,0 +1,108 @@
+{
+  "minerva_version": "2026-02-21",
+  "policy": {
+    "no_stack_examples": true,
+    "no_hardcoded_stack_commands": true
+  },
+  "project": {
+    "name": "Minerva Learning System",
+    "root": ".",
+    "default_branch": "main"
+  },
+  "detection": {
+    "signals": [
+      {
+        "name": "package_json_exists",
+        "type": "file_exists",
+        "glob": "package.json"
+      },
+      {
+        "name": "has_test_files",
+        "type": "file_contains",
+        "glob": "**/*.test.*",
+        "pattern": "test|spec"
+      }
+    ]
+  },
+  "runner": {
+    "mode": "config_only",
+    "test": {
+      "default_cmd": "npm test",
+      "overrides": [
+        {
+          "when_signal": "package_json_exists",
+          "cmd": "npm test"
+        }
+      ],
+      "env": {
+        "CI": "true"
+      },
+      "timeout_seconds": 900,
+      "capture": {
+        "max_log_chars": 20000,
+        "store_path": ".sisyphus/temp/test-logs.txt"
+      }
+    },
+    "format_contract": {
+      "expect_json_report": true,
+      "report_path": ".sisyphus/temp/test-report.json"
+    }
+  },
+  "quality": {
+    "guardrails": {
+      "max_file_lines_soft": 500,
+      "max_file_lines_hard": 800,
+      "max_function_lines_soft": 80,
+      "max_function_lines_hard": 150
+    },
+    "disallow": {
+      "patterns": [
+        {
+          "id": "DIS-001",
+          "name": "Secret-like token in diff",
+          "pattern": "(?:password|secret|token|key)[^\\n]*[a-zA-Z0-9_\\-]{8,}",
+          "severity": "block"
+        }
+      ]
+    }
+  },
+  "protection": {
+    "peek": {
+      "max_per_session": 5,
+      "cooldown_minutes": 10
+    },
+    "loop": {
+      "max_retries": 3,
+      "escalation": {
+        "enable": true,
+        "mode": "ask_user_then_oracle"
+      }
+    },
+    "memory_gc": {
+      "trigger_usage_percent": 80,
+      "warm_keep_last_tasks": 5
+    }
+  },
+  "learning": {
+    "adaptive": {
+      "enable": true,
+      "initial_difficulty": 0.5,
+      "min_difficulty": 0.2,
+      "max_difficulty": 0.9
+    },
+    "pair_mode": {
+      "enable": true,
+      "junior_asks_questions": true,
+      "force_explanations": true
+    },
+    "portfolio": {
+      "enable": true,
+      "auto_generate_on_graduation": true
+    }
+  },
+  "web": {
+    "enable_websearch": true,
+    "allow_fetch": true,
+    "citation_required_in_plan": true
+  }
+}

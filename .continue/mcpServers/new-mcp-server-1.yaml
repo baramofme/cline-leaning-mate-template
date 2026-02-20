@@ -1,0 +1,87 @@
+name: New MCP server
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: jetbrains
+    type: stdio
+    env:
+      IJ_MCP_SERVER_PORT: "64342"
+    command: /snap/intellij-idea/26/jbr/bin/java
+    args:
+      - "-classpath"
+      - "/snap/intellij-idea/26/plugins/mcpserver/lib/mcpserver-frontend.jar:/snap/intellij-idea/26/lib/util-8.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.ktor.client.cio.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.ktor.client.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.ktor.network.tls.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.ktor.io.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.ktor.utils.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.kotlinx.io.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.kotlinx.serialization.core.jar:/snap/intellij-idea/26/lib/module-intellij.libraries.kotlinx.serialization.json.jar"
+      - "com.intellij.mcpserver.stdio.McpStdioRunnerKt"
+    autoApprove:
+      - execute_run_configuration
+      - get_run_configurations
+      - build_project
+      - get_file_problems
+      - get_project_dependencies
+      - get_project_modules
+      - create_new_file
+      - find_files_by_glob
+      - find_files_by_name_keyword
+      - get_all_open_file_paths
+      - list_directory_tree
+      - open_file_in_editor
+      - reformat_file
+      - get_file_text_by_path
+      - replace_text_in_file
+      - search_in_files_by_regex
+      - search_in_files_by_text
+      - get_symbol_info
+      - rename_refactoring
+      - execute_terminal_command
+      - get_repositories
+      - runNotebookCell
+      - permission_prompt
+  - name: context7-mcp
+    autoApprove:
+      - query-docs
+      - resolve-library-id
+    disabled: false
+    timeout: 60
+    type: stdio
+    command: /home/baramofme/.nvm/versions/node/v25.6.0/bin/node
+    args:
+      - "/home/baramofme/.nvm/versions/node/v25.6.0/lib/node_modules/npm/bin/npx-cli.js"
+      - -y
+      - "@upstash/context7-mcp"
+      - --api-key
+      - "ctx7sk-7cd664d5-ca49-4abe-b160-1600d7b5aa2a"
+    env:
+      PATH: /home/baramofme/.nvm/versions/node/v25.6.0/bin:/usr/local/bin:/usr/bin:/bin
+      NODE_PATH: /home/baramofme/.nvm/versions/node/v25.6.0/lib/node_modules
+  - name: mcp-webresearch
+    disabled: false
+    timeout: 60
+    command: /home/baramofme/.nvm/versions/node/v25.6.0/bin/node
+    args:
+      - "/home/baramofme/문서/Cline/MCP/mcp-webresearch/dist/index.js"
+    env:
+      PATH: /home/baramofme/.nvm/versions/node/v25.6.0/bin:/usr/local/bin:/usr/bin:/bin
+      NODE_PATH: /home/baramofme/.nvm/versions/node/v25.6.0/lib/node_modules
+    type: stdio
+  - name: playwright
+    autoApprove:
+      - browser_navigate
+    disabled: false
+    timeout: 30
+    type: stdio
+    command: /home/baramofme/.nvm/versions/node/v25.6.0/bin/npx
+    args:
+      - -y
+      - "@playwright/mcp@latest"
+    env:
+      PATH: /home/baramofme/.nvm/versions/node/v25.6.0/bin:/usr/local/bin:/usr/bin:/bin
+      NODE_PATH: /home/baramofme/.nvm/versions/node/v25.6.0/lib/node_modules
+  - name: grep_app
+    disabled: false
+    timeout: 60
+    command: /home/baramofme/.nvm/versions/node/v25.6.0/bin/node
+    args:
+      - "/home/baramofme/문서/Cline/MCP/grep_app_mcp/dist/server-stdio.js"
+    env:
+      PATH: /home/baramofme/.nvm/versions/node/v25.6.0/bin:/usr/local/bin:/usr/bin:/bin
+      NODE_PATH: /home/baramofme/.nvm/versions/node/v25.6.0/lib/node_modules
+    type: stdio
